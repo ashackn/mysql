@@ -36,15 +36,9 @@ function pickSearch() {
       message: "What is the ID of the product you want to buy"
     })
     .then(function(answer) {
-    //  switch (answer.action) {
-    //  case "What is the ID of the product you want to buy":
     console.log(answer);
         idSearch(answer);
-    //    break;
-
-    //   case "How many units of the product would you like to buy":
-    //     unitSearch();
-    //     break;
+   
       }
 );
 }
@@ -63,7 +57,7 @@ function idSearch(answer) {
       connection.query(query, { item_id: answer.item_id}, function(err, res) {
         for (var i = 0; i < res.length; i++) {
           console.log("Stock Quantity: " + res[i].stock_quantity);
-          console.log("Price: " + res[i].price);
+          // console.log("Price: " + res[i].price);
           //var test = parseInt(res[i].stock_quantity);
           console.log("Item ID: " + res[i].item_id + " || Product Name: " + res[i].product_name + " || Department Name: " + res[i].department_name + " || Stock Quantity: " + res[i].stock_quantity);
           if(parseInt(res[i].stock_quantity) >= num.count){
@@ -73,19 +67,16 @@ function idSearch(answer) {
           }else{
             console.log ("Insufficient quantity!")
           }
-         // console.log("Number: " + num);
         }
       });
     });
 }
-    
 
 function quantityUpdate(id, name, count) {
   connection.query(
     "UPDATE products SET stock_quantity = stock_quantity - ? WHERE item_id = ?",
     [parseInt(count), id],
     function(err, res) {
-      // Let the user know the purchase was successful, re-run loadProducts
       console.log("\nThank you for your purchase of " + count + " " + name + "'s");
       
     }
